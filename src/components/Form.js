@@ -24,15 +24,14 @@ export default class Form extends Component {
 
   constructor(props) {
     super(props);
-    this.state = this.getStateFromProps(props);
+    this.state = this.getStateFromProps(props)();
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState(this.getStateFromProps(nextProps));
   }
 
-  getStateFromProps(props) {
-    const state = this.state || {};
+  getStateFromProps = props => (state = {}) => {
     const schema = "schema" in props ? props.schema : this.props.schema;
     const uiSchema = "uiSchema" in props ? props.uiSchema : this.props.uiSchema;
     const edit = typeof props.formData !== "undefined";
@@ -64,7 +63,7 @@ export default class Form extends Component {
       errors,
       errorSchema,
     };
-  }
+  };
 
   shouldComponentUpdate(nextProps, nextState) {
     return shouldRender(this, nextProps, nextState);
